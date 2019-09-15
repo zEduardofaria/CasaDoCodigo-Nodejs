@@ -20,7 +20,7 @@ class BaseControlador {
     }
 
     login() {
-
+        
         return function(req, resp) {
             resp.marko(templates.base.login);
         };
@@ -29,6 +29,8 @@ class BaseControlador {
     efetuaLogin() {
 
         return function(req, resp, next) {
+
+            // Lógica de login.
             const passport = req.passport;
             passport.authenticate('local', (erro, usuario, info) => {
                 if (info) {
@@ -39,7 +41,7 @@ class BaseControlador {
                     return next(erro);
                 }
 
-                req.login(usuario, () => {
+                req.login(usuario, (erro) => {
                     if (erro) {
                         return next(erro);
                     }
@@ -47,7 +49,7 @@ class BaseControlador {
                     return resp.redirect(LivroControlador.rotas().lista);
                 });
             })(req, resp, next);
-        }
+        };
     }
 }
 
